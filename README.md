@@ -1,5 +1,4 @@
 # data_engineering
-Data Engineering
 
 Project 1: Dimensional Data Modeling — Cumulative Host and User Activity Tracking
 
@@ -15,17 +14,17 @@ TECH STACK
 
 - Techniques Used:
 
-1. FULL OUTER JOIN to combine previous and current day’s activity without loss.
+  1. FULL OUTER JOIN to combine previous and current day’s activity without loss.
 
-2. COALESCE logic to prioritize the latest available user or host activity data.
+  2. COALESCE logic to prioritize the latest available user or host activity data.
 
-3. ARRAY aggregation (ARRAY[] and || concatenation) to store daily active dates as arrays.
+  3. ARRAY aggregation (ARRAY[] and || concatenation) to store daily active dates as arrays.
 
-4. Fixed month_start (2023-01-01) maintained for all entries across increments.
+  4. Fixed month_start (2023-01-01) maintained for all entries across increments.
 
-5. Efficient incremental accumulation without duplicating or overwriting past history.
+  5. Efficient incremental accumulation without duplicating or overwriting past history.
 
-6. Conflict handling and duplicate avoidance via key constraints on (host, month_start) and (user_id, curr_date).
+  6. Conflict handling and duplicate avoidance via key constraints on (host, month_start) and (user_id, curr_date).
 
 TABLES DESIGNED
 
@@ -54,27 +53,27 @@ TECH STACK
 
 - Techniques Used:
 
-1. Daily aggregation of COUNT(1) (total hits) and COUNT(DISTINCT user_id) (unique visitors).
+  1. Daily aggregation of COUNT(1) (total hits) and COUNT(DISTINCT user_id) (unique visitors).
 
-2. Storage of daily metrics in arrays (hit_array, unique_visitors_array) aligned with the day of the month.
+  2. Storage of daily metrics in arrays (hit_array, unique_visitors_array) aligned with the day of the month.
 
-3. Fixed month column (2023-01-01) maintained to group daily arrays within the same logical month.
+  3. Fixed month column (2023-01-01) maintained to group daily arrays within the same logical month.
 
-4. Use of ON CONFLICT (host, month) DO UPDATE to efficiently append new day's metrics without duplication.
+  4. Use of ON CONFLICT (host, month) DO UPDATE to efficiently append new day's metrics without duplication.
 
-5. Built-in support for incremental loading, enabling smooth updates without reprocessing the entire month.
+  5. Built-in support for incremental loading, enabling smooth updates without reprocessing the entire month.
 
 TABLES DESIGNED
 
 1. host_activity_reduced:
 
-- host: the host name
+  - host: the host name
 
-- month: month start date (fixed as 2023-01-01)
+  - month: month start date (fixed as 2023-01-01)
 
-- hit_array: array storing daily total hits
+  - hit_array: array storing daily total hits
 
-- unique_visitors_array: array storing daily unique visitor counts
+  - unique_visitors_array: array storing daily unique visitor counts
 
 OUTCOMES
 
